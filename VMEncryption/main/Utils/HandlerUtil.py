@@ -418,6 +418,13 @@ class HandlerUtility:
             previous_seq = str(latest_sequence_num - 1)
             previous_status_file = os.path.join(self._context._status_dir, previous_seq + '.status')
 
+            if not os.path.exists(previous_status_file):
+                self.do_exit(CommonVariables.configuration_error,
+                             'Enable',
+                             CommonVariables.extension_error_status,
+                             str(CommonVariables.configuration_error),
+                             'Cannot find the previous state.')
+
             shutil.copy2(previous_status_file, self._context._status_file)
             self.log("[StatusReport ({0})] Copied {1} to {2}".format(latest_seq, previous_status_file, self._context._status_file))
         else: 
